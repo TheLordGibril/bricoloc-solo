@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres-stocks:
+    image: postgres:15-alpine
+    container_name: bricoloc-db-stocks
+    environment:
+      POSTGRES_USER: bricoloc_admin
+      POSTGRES_PASSWORD: superpassword123
+      POSTGRES_DB: bricoloc_stocks
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: bricoloc-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@bricoloc.fr
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres-stocks
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
