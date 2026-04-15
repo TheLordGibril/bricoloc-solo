@@ -18,7 +18,7 @@ public class StockService {
     public String reserveTool(Long toolId, int quantityToReserve) {
 
         // 1. On va chercher l'outil. S'il n'existe pas, on arrête tout.
-        ToolStock tool = stockRepository.findById(toolId)
+        ToolStock tool = stockRepository.findByIdWithLock(toolId)
                 .orElseThrow(() -> new RuntimeException("Erreur : Outil introuvable (ID: " + toolId + ")"));
 
         // 2. Vérification de la disponibilité
